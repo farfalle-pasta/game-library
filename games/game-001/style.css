@@ -1,0 +1,466 @@
+
+/* ===================================
+   全体
+=================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 90px;
+  background: #f3f1e5;
+  color: #394b36;
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+}
+
+/* ===================================
+   ヘッダー
+=================================== */
+
+.game-header {
+  text-align: center;
+  padding: 28px 15px;
+  background: #49694b;
+  color: #fff9e8;
+}
+
+.game-header h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: 4px;
+}
+
+.game-header p {
+  margin: 5px 0 0;
+  font-size: 11px;
+  letter-spacing: 4px;
+  opacity: 0.8;
+}
+
+/* ===================================
+   メイン画面
+=================================== */
+
+.game-container {
+  width: 100%;
+  max-width: 760px;
+  margin: 25px auto;
+  padding: 0 15px;
+}
+
+.game-screen {
+  display: none;
+}
+
+.game-screen.active {
+  display: block;
+}
+
+/* ===================================
+   ステータス
+=================================== */
+
+.status-area {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.status-item {
+  padding: 15px 8px;
+  text-align: center;
+  background: #fffdf4;
+  border: 1px solid #dedcc9;
+  border-radius: 12px;
+}
+
+.status-item span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #78836b;
+}
+
+.status-item strong {
+  font-size: 19px;
+}
+
+/* ===================================
+   共通パネル
+=================================== */
+
+.panel {
+  margin-bottom: 20px;
+  padding: 22px;
+  background: #fffdf4;
+  border: 1px solid #dedcc9;
+  border-radius: 15px;
+  box-shadow: 0 3px 8px rgba(70, 80, 50, 0.05);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 19px;
+  color: #49694b;
+}
+
+/* ===================================
+   採集画面
+=================================== */
+
+.gather-area p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #78836b;
+}
+
+/* ボタン共通 */
+
+.main-button {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #66865e;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.main-button:hover {
+  background: #52734c;
+}
+
+.main-button:active {
+  transform: scale(0.98);
+}
+
+.main-button:disabled {
+  background: #b8c0ad;
+  cursor: not-allowed;
+}
+
+/* 採集結果 */
+
+.result-box {
+  margin-top: 15px;
+  padding: 15px;
+  min-height: 50px;
+  border-radius: 10px;
+  background: #f1f3e8;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #65765b;
+}
+
+/* ===================================
+   インベントリ拡張
+=================================== */
+
+.upgrade-info {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f8f7ed;
+}
+
+.upgrade-info div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.upgrade-info span {
+  font-size: 13px;
+  color: #78836b;
+}
+
+.upgrade-info strong {
+  font-size: 15px;
+}
+
+.help-text {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: #78836b;
+}
+
+/* ===================================
+   インベントリ画面
+=================================== */
+
+.inventory-description {
+  margin-bottom: 18px;
+  font-size: 13px;
+  color: #78836b;
+}
+
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 素材のグループ */
+
+.inventory-group {
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f8f7ed;
+}
+
+.inventory-group summary {
+  padding: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #52684b;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+/* 個体カード */
+
+.inventory-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 12px 12px;
+}
+
+.inventory-item {
+  padding: 15px;
+  border: 1px solid #e3e2d5;
+  border-radius: 9px;
+  background: #fffdf4;
+}
+
+.inventory-item strong {
+  display: block;
+  font-size: 15px;
+}
+
+.inventory-item span {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #78836b;
+}
+
+/* ===================================
+   下部タブ
+=================================== */
+
+.bottom-nav {
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 15px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+
+  background: #fffdf4;
+  border-top: 1px solid #dedcc9;
+  box-shadow: 0 -3px 10px rgba(70, 80, 50, 0.06);
+}
+
+.nav-button {
+  flex: 1;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+
+  color: #78836b;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-icon {
+  font-size: 22px;
+}
+
+.nav-button.active {
+  background: #49694b;
+  color: #fff9e8;
+}
+
+/* ===================================
+   スマートフォン対応
+=================================== */
+
+@media (max-width: 480px) {
+  .game-header h1 {
+    font-size: 25px;
+  }
+
+  .status-area {
+    gap: 6px;
+  }
+
+  .status-item {
+    padding: 12px 4px;
+  }
+
+  .status-item span {
+    font-size: 10px;
+  }
+
+  .status-item strong {
+    font-size: 16px;
+  }
+
+  .panel {
+    padding: 17px;
+  }
+
+  .upgrade-info {
+    padding: 13px;
+  }
+}
+
+/* ===================================
+   個体詳細画面
+=================================== */
+
+.item-modal {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+  background: rgba(35, 48, 32, 0.55);
+}
+
+.item-modal.active {
+  display: flex;
+}
+
+.item-modal-content {
+  width: 100%;
+  max-width: 420px;
+  max-height: 85vh;
+  overflow-y: auto;
+
+  padding: 24px;
+  border-radius: 16px;
+
+  background: #fffdf4;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.item-modal-content h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.item-detail-info {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding: 15px;
+
+  border-radius: 10px;
+  background: #f1f3e8;
+}
+
+.item-detail-info div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-detail-info span {
+  font-size: 13px;
+  color: #78836b;
+}
+
+.item-detail-info strong {
+  font-size: 15px;
+}
+
+.sub-button {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+
+  border: 1px solid #66865e;
+  border-radius: 10px;
+
+  background: #fffdf4;
+  color: #49694b;
+
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sub-button:active {
+  transform: scale(0.98);
+}
+
+.item-modal-content .main-button:disabled {
+  background: #b8c0ad;
+  cursor: not-allowed;
+}
+
+/* 詳細画面のヘッダー */
+
+.item-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.item-modal-header h2 {
+  margin: 0;
+}
+
+.close-modal-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f1f3e8;
+  color: #49694b;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close-modal-button:active {
+  transform: scale(0.9);
+}
