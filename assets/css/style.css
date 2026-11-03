@@ -1,1 +1,142 @@
+* {
+  box-sizing: border-box;
+}
 
+body {
+  margin: 0;
+  background: #f6f5f0;
+  color: #44483f;
+  font-family: sans-serif;
+  line-height: 1.7;
+}
+
+.site-header {
+  text-align: center;
+  padding: 48px 16px 36px;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: 3px;
+}
+
+.site-header p {
+  color: #85877e;
+  margin: 8px 0 0;
+}
+
+.container {
+  width: min(900px, 92%);
+  margin: 0 auto;
+}
+
+.game-card {
+  background: #fff;
+  border: 1px solid #e9e7df;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px #00000008;
+}
+
+.game-thumbnail {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #e9eee5;
+}
+
+.game-info {
+  padding: 24px;
+}
+
+.game-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.game-heading h2 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.status {
+  background: #e7efe4;
+  color: #60775b;
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 12px;
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 20px;
+}
+
+.genres span {
+  background: #f0f1eb;
+  color: #69705e;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+details {
+  border-top: 1px solid #eee;
+  padding: 13px 0;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+details p {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.play-button {
+  display: block;
+  margin-top: 20px;
+  padding: 13px;
+  text-align: center;
+  text-decoration: none;
+  background: #71866a;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.play-button:hover {
+  background: #5d7357;
+}
+
+footer {
+  text-align: center;
+  padding: 40px 16px;
+  color: #aaa99f;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    padding-top: 35px;
+  }
+
+  .game-info {
+    padding: 18px;
+  }
+
+  .game-heading h2 {
+    font-size: 20px;
+  }
+}
