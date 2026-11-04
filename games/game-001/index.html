@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -10,13 +9,13 @@
 <body>
 
   <header class="game-header">
-    <a href="../../index.html" class="back-home-button">
+  <a href="../../index.html" class="back-home-button">
     ← 戻る
-    </a>
+  </a>
 
-    <h1>マナの森</h1>
-    <p>MANA FOREST</p>
-  </header>
+  <h1>マナの森</h1>
+  <p>MANA FOREST</p>
+</header>
 
   <main class="game-container">
 
@@ -83,6 +82,13 @@
           コインを使って所持容量を増やせます。
         </p>
       </section>
+      
+      <section class="panel">
+        <h2>⚙️ ゲーム設定</h2>
+        <button id="reset-button" class="reset-button">
+         ゲームデータをリセット
+        </button>
+      </section>
 
     </section>
 
@@ -102,7 +108,23 @@
       </section>
 
     </section>
-    
+
+    <!-- 図鑑画面 -->
+    <section id="encyclopedia-screen" class="game-screen">
+
+      <section class="panel encyclopedia-area">
+        <h2>📖 素材図鑑</h2>
+
+        <p class="encyclopedia-description">
+          これまでに採集した素材が記録されます。
+        </p>
+
+        <div id="encyclopedia-list" class="encyclopedia-list">
+        </div>
+      </section>
+
+    </section>
+
     <!-- 個体詳細画面 -->
     <div id="item-modal" class="item-modal">
       <div class="item-modal-content">
@@ -110,7 +132,7 @@
         <div class="item-modal-header">
           <h2>素材の詳細</h2>
           <button id="close-modal-button" class="close-modal-button">
-          ×
+            ×
           </button>
         </div>
 
@@ -118,11 +140,6 @@
           <div>
             <span>素材名</span>
             <strong id="detail-name">若葉</strong>
-          </div>
-
-          <div>
-            <span>レアリティ</span>
-            <strong id="detail-rarity">フローラ</strong>
           </div>
 
           <div>
@@ -172,6 +189,11 @@
     <button class="nav-button" data-screen="inventory-screen">
       <span class="nav-icon">🎒</span>
       <span>インベントリ</span>
+    </button>
+
+    <button class="nav-button" data-screen="encyclopedia-screen">
+      <span class="nav-icon">📖</span>
+      <span>図鑑</span>
     </button>
   </nav>
 
