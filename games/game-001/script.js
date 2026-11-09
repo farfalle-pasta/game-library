@@ -24,6 +24,16 @@ const player = {
 let selectedItemId = null;
 
 // ===================================
+// 複数売却用データ
+// ===================================
+
+// 複数売却モードかどうか
+let isBulkSellMode = false;
+
+// 売却対象として選択された個体ID
+let selectedSellItems = new Set();
+
+// ===================================
 // 素材データ
 // ===================================
 
@@ -483,6 +493,11 @@ function updateInventory() {
       card.className = "inventory-item";
       card.dataset.itemId = item.id;
 
+// 複数売却モードで選択中なら色を変更
+if (selectedSellItems.has(String(item.id))) {
+  card.classList.add("selected-for-sale");
+}
+
       const mana = document.createElement("strong");
       mana.textContent = `マナ ${item.value}`;
 
@@ -499,6 +514,201 @@ function updateInventory() {
     group.appendChild(itemContainer);
     inventoryList.appendChild(group);
   }
+}
+
+// ===================================
+// インベントリ売却ボタン
+// ===================================
+
+function updateInventoryActions() {
+  const inventoryList = document.getElementById("inventory-list");
+
+  let actions = document.getElementById("inventory-actions");
+
+  // 売却ボタンがまだなければ作成
+  if (!actions) {
+    actions = document.createElement("div");
+    actions.id = "inventory-actions";
+    actions.className = "inventory-actions";
+
+    inventoryList.insertAdjacentElement("afterend", actions);
+  }
+
+  actions.innerHTML = "";
+
+  if (isBulkSellMode) {
+    // 複数売却モード
+    const count = selectedSellItems.size;
+
+    const total = player.inventory.reduce((sum, item) => {
+      if (selectedSellItems.has(String(item.id))) {
+        return sum + getSellPrice(item);
+      }
+
+      return sum;
+    }, 0);
+
+    const info = document.createElement("p");
+    info.className = "bulk-sell-info";
+    info.textContent =
+      `選択中：${count}個 / 売却予定：${total}コイン`;
+
+    actions.appendChild(info);
+
+    const sellButton = document.createElement("button");
+    sellButton.className = "bulk-sell-button";
+    sellButton.textContent = "選択した素材を売却";
+    sellButton.disabled = count === 0;
+    sellButton.addEventListener("click", sellSelectedItems);
+
+    actions.appendChild(sellButton);
+
+    const cancelButton = document.createElement("button");
+    cancelButton.className = "bulk-cancel-button";
+    cancelButton.textContent = "選択を終了";
+    cancelButton.addEventListener("click", cancelBulkSell);
+
+    actions.appendChild(cancelButton);
+
+  } else {
+    // 通常モード
+    const bulkButton = document.createElement("button");
+    bulkButton.className = "bulk-sell-button";
+    bulkButton.textContent = "複数売却";
+    bulkButton.addEventListener("click", startBulkSell);
+
+    const allButton = document.createElement("button");
+    allButton.className = "all-sell-button";
+    allButton.textContent = "すべて売却";
+    allButton.disabled = player.inventory.length === 0;
+    allButton.addEventListener("click", sellAllItems);
+
+    actions.appendChild(bulkButton);
+    actions.appendChild(allButton);
+  }
+}
+
+// ===================================
+// 複数売却
+// ===================================
+
+// 複数売却モード開始
+function startBulkSell() {
+  if (player.inventory.length === 0) {
+    return;
+  }
+
+  isBulkSellMode = true;
+  selectedSellItems.clear();
+
+  updateInventory();
+  updateInventoryActions();
+}
+
+// 個体の選択・解除
+function toggleSellSelection(itemId) {
+  const id = String(itemId);
+
+  if (selectedSellItems.has(id)) {
+    selectedSellItems.delete(id);
+  } else {
+    selectedSellItems.add(id);
+  }
+
+  // 対象の個体カードだけ色を変更
+  const card = document.querySelector(
+    `.inventory-item[data-item-id="${id}"]`
+  );
+
+  if (card) {
+    card.classList.toggle(
+      "selected-for-sale",
+      selectedSellItems.has(id)
+    );
+  }
+
+  // 選択数と売却予定金額だけ更新
+  updateInventoryActions();
+}
+
+// 複数売却モード終了
+function cancelBulkSell() {
+  isBulkSellMode = false;
+  selectedSellItems.clear();
+
+  updateInventory();
+  updateInventoryActions();
+}
+
+// 選択した個体を売却
+function sellSelectedItems() {
+  if (selectedSellItems.size === 0) {
+    return;
+  }
+
+  const targets = player.inventory.filter(item =>
+    selectedSellItems.has(String(item.id))
+  );
+
+  const total = targets.reduce(
+    (sum, item) => sum + getSellPrice(item),
+    0
+  );
+
+  const confirmed = confirm(
+    `${targets.length}個の素材を売却しますか？\n\n` +
+    `獲得コイン：${total}コイン`
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  player.coins += total;
+
+  player.inventory = player.inventory.filter(item =>
+    !selectedSellItems.has(String(item.id))
+  );
+
+  isBulkSellMode = false;
+  selectedSellItems.clear();
+
+  updateDisplay();
+}
+
+// ===================================
+// すべて売却
+// ===================================
+
+function sellAllItems() {
+  if (player.inventory.length === 0) {
+    return;
+  }
+
+  const count = player.inventory.length;
+
+  const total = player.inventory.reduce(
+    (sum, item) => sum + getSellPrice(item),
+    0
+  );
+
+  const confirmed = confirm(
+    `所持している素材をすべて売却しますか？\n\n` +
+    `売却個数：${count}個\n` +
+    `獲得コイン：${total}コイン`
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  player.coins += total;
+  player.inventory = [];
+
+  isBulkSellMode = false;
+  selectedSellItems.clear();
+
+  updateDisplay();
 }
 
 // ===================================
@@ -745,7 +955,13 @@ document.getElementById("inventory-list").addEventListener(
       return;
     }
 
-    openItemDetails(card.dataset.itemId);
+    if (isBulkSellMode) {
+      // 複数売却モードなら選択・解除
+      toggleSellSelection(card.dataset.itemId);
+    } else {
+      // 通常モードなら個体詳細を開く
+      openItemDetails(card.dataset.itemId);
+    }
   }
 );
 
@@ -826,7 +1042,14 @@ function updateDisplay() {
     `${player.inventory.length} / ${player.inventoryCapacity}`;
 
   updateInventory();
+  updateInventoryActions();
   updateEncyclopedia();
+  
+  // インベントリに空きができたら採集結果を初期状態に戻す
+if (player.inventory.length < player.inventoryCapacity) {
+  document.getElementById("gather-result").textContent =
+    "ここに採集結果が表示されます。";
+}
 
   const cost = getExpansionCost();
 

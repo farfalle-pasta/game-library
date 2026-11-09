@@ -612,3 +612,65 @@ h2 {
 .back-home-button:hover {
   background: rgba(255, 255, 255, 0.25);
 }
+
+/* ===================================
+   インベントリ売却機能
+=================================== */
+
+/* 売却ボタンの配置 */
+.inventory-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* 共通ボタン */
+.inventory-actions button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 複数売却ボタン */
+.bulk-sell-button {
+  background: #496c50;
+  color: #fff;
+}
+
+/* すべて売却ボタン */
+.all-sell-button {
+  background: #a65d50;
+  color: #fff;
+}
+
+/* 選択終了ボタン */
+.bulk-cancel-button {
+  background: #e8e7dc;
+  color: #596b54;
+}
+
+/* 選択中の個体 */
+.inventory-item.selected-for-sale {
+  background: #dcebdd;
+  border: 2px solid #496c50;
+  box-shadow: 0 0 0 2px rgba(73, 108, 80, 0.12);
+}
+
+/* 選択中の情報 */
+.bulk-sell-info {
+  text-align: center;
+  font-weight: bold;
+  color: #496c50;
+  margin: 4px 0;
+}
+
+/* 売却できないボタン */
+.inventory-actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
